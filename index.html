@@ -12,12 +12,75 @@
         :root {
             --primary-color: #2c3e50; /* Dark Slate Blue */
             --accent-color: #3498db; /* Bright Blue */
+            --sidebar-width: 250px;
+        }
+
+        /* Smooth scrolling for anchor links */
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
             background-color: #f4f6f9;
             font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             color: #333;
+        }
+
+        /* Layout Structure */
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Fixed Sidebar Navigation */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: #ffffff;
+            border-right: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 2rem 1.5rem;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.02);
+            z-index: 1000;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        /* Sidebar Styling */
+        .sidebar-brand {
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+            line-height: 1.2;
+        }
+
+        .nav-link {
+            color: #555;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.2rem;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            background-color: #f0f4f8;
+            color: var(--accent-color);
+        }
+        
+        .nav-section-header {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #999;
+            margin: 1.5rem 0 0.5rem 1rem;
+            letter-spacing: 0.5px;
         }
 
         /* Header Styling */
@@ -65,10 +128,6 @@
             opacity: 0.9;
         }
 
-        .card-upcoming .card-title {
-            color: #6c757d;
-        }
-
         .badge-upcoming {
             position: absolute;
             top: 15px;
@@ -91,186 +150,386 @@
             background-color: #1a252f;
         }
 
-        /* Section Titles */
-        .section-title {
+        /* Collapsible Section Headers */
+        .section-header {
+            cursor: pointer;
             border-left: 5px solid var(--accent-color);
-            padding-left: 15px;
-            margin-bottom: 25px;
+            padding: 5px 15px;
+            margin-bottom: 20px;
+            margin-top: 40px; /* Space between sections */
+            border-radius: 0 8px 8px 0;
+            transition: background-color 0.2s;
+        }
+        
+        .section-header:hover {
+            background-color: #e9ecef;
+        }
+
+        .section-title {
             font-weight: 700;
             color: var(--primary-color);
+            margin: 0;
+        }
+
+        /* Chevron Animation */
+        .section-header .fa-chevron-down {
+            color: #888;
+            transition: transform 0.3s ease;
+        }
+        
+        /* Rotates the chevron to point right when collapsed */
+        .section-header.collapsed .fa-chevron-down {
+            transform: rotate(-90deg);
         }
     </style>
 </head>
+
 <body>
 
-    <div class="hero-section text-center">
-        <div class="container">
-            <h1 class="display-5 fw-bold">Advanced Analytics Hub</h1>
-            <p class="lead mb-0">Centralized Tools for MMM Analytics</p>
-        </div>
+<!-- WIDE HEADER -->
+<div class="hero-section text-center">
+    <div class="container">
+        <h1 class="display-5 fw-bold">Advanced Analytics Hub</h1>
+        <p class="lead mb-0">Centralized Lifecycle Tools for MMM Analytics</p>
     </div>
+</div>
 
-    <div class="container mb-5">
-        
-        <h3 class="section-title">Available Tools</h3>
-        <div class="row g-4 mb-5">
-            
-            <!-- App 1: EDA for MMM -->
-            <div class="col-md-4">
-                <div class="app-card p-4">
-                    <div class="card-body-content">
-                        <div class="card-icon"><i class="fa-solid fa-chart-line"></i></div>
-                        <h4 class="card-title fw-bold">EDA for MMM</h4>
-                        <p class="card-text text-muted small">
-                            Interactive exploratory analysis for MMM variables. Apply and visualize transformations (S-curve, exponential, power) and experiment with parameter configurations to understand model inputs.
-                        </p>
-                        <p class="text-muted extra-small" style="font-size: 0.8rem;"><strong>Input:</strong> AnalyticalDataset</p>
-                    </div>
-                    <div class="mt-4 d-flex gap-2">
-                        <a href="https://analyticscolombia.shinyapps.io/EDA_MMM/" target="_blank" class="btn btn-primary btn-app w-100"><i class="fa-solid fa-rocket me-2"></i>Open App</a>
-                        <a href="https://insidemedia.sharepoint.com/:p:/r/sites/DataandAnalytics-Colombia/Shared%20Documents/General/Initiatives/Shiny/EDA/Documentation/EDA%20User%20Manual.pptx?d=w896bf471c9524b898c97ca263f95a6c3&csf=1&web=1&e=PbSc4p" target="_blank" class="btn btn-outline-secondary" title="Documentation"><i class="fa-regular fa-file-lines"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- App 2: VOF Maker -->
-            <div class="col-md-4">
-                <div class="app-card p-4">
-                    <div class="card-body-content">
-                        <div class="card-icon"><i class="fa-solid fa-laptop-code"></i></div>
-                        <h4 class="card-title fw-bold">VOF Maker</h4>
-                        <p class="card-text text-muted small">
-                            Standardized VOF creation tool for AWB. Generates code following logical rules for visual clarity and automatically produces VOF metadata for QA, traceability, and process automation.
-                        </p>
-                        <p class="text-muted extra-small" style="font-size: 0.8rem;"><strong>Input:</strong> AnalyticalDataset & Code</p>
-                    </div>
-                    <div class="mt-4 d-flex gap-2">
-                        <a href="https://analyticscolombia.shinyapps.io/VOF_Maker/" target="_blank" class="btn btn-primary btn-app w-100"><i class="fa-solid fa-rocket me-2"></i>Open App</a>
-                        <a href="#" class="btn btn-outline-secondary" title="Documentation"><i class="fa-regular fa-file-lines"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- App 3: Post-Modeling -->
-            <div class="col-md-4">
-                <div class="app-card p-4">
-                    <div class="card-body-content">
-                        <div class="card-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
-                        <h4 class="card-title fw-bold">Post-Modeling</h4>
-                        <p class="card-text text-muted small">
-                            AVM visualization to evaluate model fit. Inspect actual vs. modeled values, identify seasonality patterns, residuals, and over/under-estimations. Includes performance metrics (R², MAPE).
-                        </p>
-                        <p class="text-muted extra-small" style="font-size: 0.8rem;"><strong>Input:</strong> AWB .zip Output</p>
-                    </div>
-                    <div class="mt-4 d-flex gap-2">
-                        <a href="https://analyticscolombia.shinyapps.io/Post_Modeling/" target="_blank" class="btn btn-primary btn-app w-100"><i class="fa-solid fa-rocket me-2"></i>Open App</a>
-                        <a href="#" class="btn btn-outline-secondary" title="Documentation"><i class="fa-regular fa-file-lines"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- App 4: Miscellany -->
-            <div class="col-md-4">
-                <div class="app-card p-4">
-                    <div class="card-body-content">
-                        <div class="card-icon"><i class="fa-solid fa-toolbox"></i></div>
-                        <h4 class="card-title fw-bold">Miscellany for AWB</h4>
-                        <p class="card-text text-muted small">
-                            Compilation of lightweight, independent tools to automate specific AWB configuration steps. Features include: MFF from CSV to Zip, Model Scope Maker, ModelDetails Versions Transfer, and Variable Statistics to ModelDetails.
-                        </p>
-                        <p class="text-muted extra-small" style="font-size: 0.8rem;"><strong>Input:</strong> Depends on the tool</p>
-                    </div>
-                    <div class="mt-4 d-flex gap-2">
-                        <a href="https://analyticscolombiawpp.shinyapps.io/tools_miscellany_awb/" target="_blank" class="btn btn-primary btn-app w-100"><i class="fa-solid fa-rocket me-2"></i>Open App</a>
-                        <a href="#" class="btn btn-outline-secondary" title="Documentation"><i class="fa-regular fa-file-lines"></i></a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <h3 class="section-title text-secondary">Development Roadmap</h3>
-        <div class="row g-4">
-
-            <!-- Upcoming App 1: Contributions Calc. -->
-            <div class="col-md-4">
-                <div class="app-card card-upcoming p-4">
-                    <span class="badge-upcoming">Q3 2026</span>
-                    <div class="card-body-content">
-                        <div class="card-icon text-muted"><i class="fa-solid fa-money-bill-trend-up"></i></div>
-                        <h5 class="card-title fw-bold">Contributions Calc.</h5>
-                        <p class="card-text text-muted small">
-                            Calculation of multiplicative contributions and ROI. Handles variable grouping, currency conversion, and redistribution models. Generates waterfall, area, and pie charts.
-                        </p>
-                    </div>
-                    
-                    <div class="mt-4">
-                        <div class="d-flex justify-content-between mb-1">
-                            <span class="small fw-bold text-muted">Status: Backend Logic</span>
-                            <span class="small fw-bold text-primary">60%</span>
-                        </div>
-                        <div class="progress" style="height: 8px;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: 60%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Upcoming App 2: Deep Dives -->
-            <div class="col-md-4">
-                <div class="app-card card-upcoming p-4">
-                    <span class="badge-upcoming">Q3 2026</span>
-                    <div class="card-body-content">
-                        <div class="card-icon text-muted"><i class="fa-solid fa-layer-group"></i></div>
-                        <h5 class="card-title fw-bold">Deep Dives</h5>
-                        <p class="card-text text-muted small">
-                            Automated split generation, input preparation for PSO, and reporting index calculation.
-                        </p>
-                    </div>
-                    
-                    <div class="mt-4">
-                        <div class="d-flex justify-content-between mb-1">
-                            <span class="small fw-bold text-muted">Status: Splits (75%); PSO (100%); Indices (40%)</span>
-                            <span class="small fw-bold text-primary">60%</span>
-                        </div>
-                        <div class="progress" style="height: 8px;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style="width: 60%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Upcoming App 3: Refresh Automation -->
-            <div class="col-md-4">
-                <div class="app-card card-upcoming p-4">
-                    <span class="badge-upcoming">Q4 2026</span>
-                    <div class="card-body-content">
-                        <div class="card-icon text-muted"><i class="fa-solid fa-arrows-rotate"></i></div>
-                        <h5 class="card-title fw-bold">Refresh Automation</h5>
-                        <p class="card-text text-muted small">
-                            Streamlined split generation for model refreshes, input preparation, <strong>expected revenue calculation per channel and split</strong>, and final report table generation.
-                        </p>
-                    </div>
-                    
-                    <div class="mt-4">
-                        <div class="d-flex justify-content-between mb-1">
-                            <span class="small fw-bold text-muted">Status: Frontend UI</span>
-                            <span class="small fw-bold text-primary">50%</span>
-                        </div>
-                        <div class="progress" style="height: 8px;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 50%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div> 
-    </div> 
+<div class="wrapper">
     
-    <footer class="text-center py-4 text-muted border-top mt-5">
-        <small>2026 Developed by Advanced Analytics Colombia Team</small>
-    </footer>
+    <!-- SIDEBAR NAVIGATION -->
+    <nav class="sidebar">
+        <div class="sidebar-brand">
+            <i class="fa-solid fa-chart-network me-2 text-primary"></i>
+            Analytics Hub
+        </div>
+        
+        <div class="nav flex-column">
+            <div class="nav-section-header">Available Tools</div>
+            <a class="nav-link" href="#sec-data-processing"><i class="fa-solid fa-database me-2 w-20px"></i>Data Processing</a>
+            <a class="nav-link" href="#sec-modeling"><i class="fa-solid fa-cubes me-2 w-20px"></i>Modeling</a>
+            <a class="nav-link" href="#sec-deep-dives"><i class="fa-solid fa-layer-group me-2 w-20px"></i>Deep Dives</a>
+            <a class="nav-link" href="#sec-additional"><i class="fa-solid fa-plus-circle me-2 w-20px"></i>Additional Tools</a>
+            
+            <div class="nav-section-header mt-4">Future</div>
+            <a class="nav-link" href="#sec-roadmap"><i class="fa-solid fa-road me-2 w-20px"></i>Roadmap</a>
+        </div>
+    </nav>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        
+        <div class="container mb-5 px-4">
+            
+            
+            <!-- ============================================== -->
+            <!-- SECTION 1: DATA PROCESSING (Closed by default) -->
+            <!-- ============================================== -->
+            <div id="sec-data-processing" class="section-header collapsed d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#collapseData" aria-expanded="false" aria-controls="collapseData">
+                <h3 class="section-title">1. Data Processing</h3>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            
+            <div class="collapse" id="collapseData">
+                <div class="row g-4 mb-3">
+                    <div class="col-md-4">
+                        <div class="app-card p-4">
+                            <div class="card-body-content">
+                                <div class="card-icon"><i class="fa-solid fa-file-csv"></i></div>
+                                <h4 class="card-title fw-bold">Data Review Builder</h4>
+                                <p class="card-text text-muted small">
+                                    Validation and processing tool for Data Review charts and tables.
+                                </p>
+                                <p class="text-muted extra-small" style="font-size: 0.8rem;"><strong>Input:</strong> Extracted and/or Transformed tables from BigQuery</p>
+                            </div>
+                            <div class="mt-4 d-flex gap-2">
+                                <a href="https://analyticscolombiawpp.shinyapps.io/data_review_builder/" target="_blank" class="btn btn-primary btn-app w-100"><i class="fa-solid fa-rocket me-2"></i>Open App</a>
+                                <a href="#" target="_blank" class="btn btn-outline-secondary" title="Documentation"><i class="fa-regular fa-file-lines"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================== -->
+            <!-- SECTION 2: MODELING (Open by default)          -->
+            <!-- ============================================== -->
+            <div id="sec-modeling" class="section-header d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#collapseModeling" aria-expanded="true" aria-controls="collapseModeling">
+                <h3 class="section-title">2. Modeling</h3>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            
+            <div class="collapse show" id="collapseModeling">
+                <div class="row g-4 mb-3">
+                    
+                    <!-- App: EDA for MMM -->
+                    <div class="col-md-4">
+                        <div class="app-card p-4">
+                            <div class="card-body-content">
+                                <div class="card-icon"><i class="fa-solid fa-chart-line"></i></div>
+                                <h4 class="card-title fw-bold">EDA for MMM</h4>
+                                <p class="card-text text-muted small">
+                                    Interactive exploratory analysis for MMM variables. Apply and visualize transformations (S-curve, exponential, power) and experiment with parameter configurations to understand model inputs.
+                                </p>
+                                <p class="text-muted extra-small" style="font-size: 0.8rem;"><strong>Input:</strong> AnalyticalDataset</p>
+                            </div>
+                            <div class="mt-4 d-flex gap-2">
+                                <a href="https://analyticscolombia.shinyapps.io/EDA_MMM/" target="_blank" class="btn btn-primary btn-app w-100"><i class="fa-solid fa-rocket me-2"></i>Open App</a>
+                                <a href="https://insidemedia.sharepoint.com/:p:/r/sites/DataandAnalytics-Colombia/Shared%20Documents/General/Initiatives/Shiny/EDA/Documentation/EDA%20User%20Manual.pptx?d=w896bf471c9524b898c97ca263f95a6c3&csf=1&web=1&e=PbSc4p" target="_blank" class="btn btn-outline-secondary" title="Documentation"><i class="fa-regular fa-file-lines"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- App: VOF Maker -->
+                    <div class="col-md-4">
+                        <div class="app-card p-4">
+                            <div class="card-body-content">
+                                <div class="card-icon"><i class="fa-solid fa-laptop-code"></i></div>
+                                <h4 class="card-title fw-bold">VOF Maker</h4>
+                                <p class="card-text text-muted small">
+                                    Standardized VOF creation tool for AWB. Generates code following logical rules for visual clarity and automatically produces VOF metadata for QA, traceability, and process automation.
+                                </p>
+                                <p class="text-muted extra-small" style="font-size: 0.8rem;"><strong>Input:</strong> AnalyticalDataset & Code</p>
+                            </div>
+                            <div class="mt-4 d-flex gap-2">
+                                <a href="https://analyticscolombia.shinyapps.io/VOF_Maker/" target="_blank" class="btn btn-primary btn-app w-100"><i class="fa-solid fa-rocket me-2"></i>Open App</a>
+                                <a href="#" class="btn btn-outline-secondary" title="Documentation"><i class="fa-regular fa-file-lines"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- App: Post-Modeling -->
+                    <div class="col-md-4">
+                        <div class="app-card p-4">
+                            <div class="card-body-content">
+                                <div class="card-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+                                <h4 class="card-title fw-bold">Post-Modeling</h4>
+                                <p class="card-text text-muted small">
+                                    AVM visualization to evaluate model fit. Inspect actual vs. modeled values, identify seasonality patterns, residuals, and over/under-estimations. Includes performance metrics (R², MAPE).
+                                </p>
+                                <p class="text-muted extra-small" style="font-size: 0.8rem;"><strong>Input:</strong> AWB .zip Output</p>
+                            </div>
+                            <div class="mt-4 d-flex gap-2">
+                                <a href="https://analyticscolombia.shinyapps.io/Post_Modeling/" target="_blank" class="btn btn-primary btn-app w-100"><i class="fa-solid fa-rocket me-2"></i>Open App</a>
+                                <a href="#" class="btn btn-outline-secondary" title="Documentation"><i class="fa-regular fa-file-lines"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- App: Miscellany -->
+                    <div class="col-md-4">
+                        <div class="app-card p-4">
+                            <div class="card-body-content">
+                                <div class="card-icon"><i class="fa-solid fa-toolbox"></i></div>
+                                <h4 class="card-title fw-bold">Miscellany for AWB</h4>
+                                <p class="card-text text-muted small">
+                                    Compilation of lightweight, independent tools to automate specific AWB configuration steps. Features include: MFF from CSV to Zip, Model Scope Maker, ModelDetails Versions Transfer, and Variable Statistics to ModelDetails.
+                                </p>
+                                <p class="text-muted extra-small" style="font-size: 0.8rem;"><strong>Input:</strong> Depends on the tool</p>
+                            </div>
+                            <div class="mt-4 d-flex gap-2">
+                                <a href="https://analyticscolombiawpp.shinyapps.io/tools_miscellany_awb/" target="_blank" class="btn btn-primary btn-app w-100"><i class="fa-solid fa-rocket me-2"></i>Open App</a>
+                                <a href="#" class="btn btn-outline-secondary" title="Documentation"><i class="fa-regular fa-file-lines"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ============================================== -->
+            <!-- SECTION 3: DEEP DIVES (Open by default)        -->
+            <!-- ============================================== -->
+            <div id="sec-deep-dives" class="section-header d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#collapseDeepDives" aria-expanded="true" aria-controls="collapseDeepDives">
+                <h3 class="section-title">3. Deep Dives</h3>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            
+            <div class="collapse show" id="collapseDeepDives">
+                <div class="row g-4 mb-3">
+                    
+                    <!-- App: Splits -->
+                    <div class="col-md-4">
+                        <div class="app-card p-4">
+                            <div class="card-body-content">
+                                <div class="card-icon"><i class="fa-solid fa-code-branch"></i></div>
+                                <h4 class="card-title fw-bold">Splits Automation</h4>
+                                <p class="card-text text-muted small">
+                                    Automated split generation for Deep Dives. Allows to identify breakouts by channel, build the granularity for splits, aggregate small splits if needed, and validate all the process is done correctly. Generates inputs for PSO, and metadata to connect with other apps.
+                                </p>
+                                <p class="text-muted extra-small" style="font-size: 0.8rem;"><strong>Input:</strong> AnalyticalDataset, RAE Datafile, VOF Metadata, ModelDetails, ROIs by Channel </p>
+                            </div>
+                            <div class="mt-4 d-flex gap-2">
+                                <a href="https://analyticscolombiawpp.shinyapps.io/splits_deep_dives/" target="_blank" class="btn btn-primary btn-app w-100"><i class="fa-solid fa-rocket me-2"></i>Open App</a>
+                                <a href="#" class="btn btn-outline-secondary" title="Documentation"><i class="fa-regular fa-file-lines"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Code: PSO -->
+                    <div class="col-md-4">
+                        <div class="app-card p-4">
+                            <div class="card-body-content">
+                                <div class="card-icon"><i class="fa-brands fa-github text-dark"></i></div>
+                                <h4 class="card-title fw-bold">PSO Code</h4>
+                                <p class="card-text text-muted small">
+                                    Refactored R Script (modularized) to prepare data and run PSO Algorithm for Deep Dives. Generates pre-optimization and post-optimization validation reports and Side Model Result.
+                                </p>
+                                <p class="text-muted extra-small" style="font-size: 0.8rem;"><strong>Input:</strong> Anlytical Extended, Side Model Mapping, Model Results.zip, ModelDetails</p>
+                            </div>
+                            <div class="mt-4 d-flex gap-2">
+                                <a href="#" target="_blank" class="btn btn-primary btn-app w-100"><i class="fa-brands fa-github text-light"></i>  Open Repo</a>
+                                <a href="#" class="btn btn-outline-secondary" title="Documentation"><i class="fa-regular fa-file-lines"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ============================================== -->
+            <!-- SECTION 4: ADDITIONAL TOOLS (Closed)           -->
+            <!-- ============================================== -->
+            <div id="sec-additional" class="section-header collapsed d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#collapseAdditional" aria-expanded="false" aria-controls="collapseAdditional">
+                <h3 class="section-title">4. Additional Tools</h3>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            
+            <div class="collapse" id="collapseAdditional">
+                <div class="row g-4 mb-3">
+                    <div class="col-md-4">
+                        <div class="app-card p-4">
+                            <div class="card-body-content">
+                                <div class="card-icon text-muted"><i class="fa-solid fa-puzzle-piece"></i></div>
+                                <h4 class="card-title fw-bold text-muted">Custom Project App</h4>
+                                <p class="card-text text-muted small">
+                                    Space designated for specialized Shiny applications that address specific client requests outside the standard MMM workflow.
+                                </p>
+                            </div>
+                            <div class="mt-4 d-flex gap-2">
+                                <button class="btn btn-secondary w-100" disabled>Coming Soon</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================== -->
+            <!-- SECTION 5: DEVELOPMENT ROADMAP (Open)          -->
+            <!-- ============================================== -->
+            <div id="sec-roadmap" class="section-header d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#collapseRoadmap" aria-expanded="true" aria-controls="collapseRoadmap">
+                <h3 class="section-title text-secondary">Development Roadmap</h3>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            
+            <div class="collapse show" id="collapseRoadmap">
+                <div class="row g-4">
+
+                    <!-- Upcoming App: Contributions Calc. -->
+                    <div class="col-md-4">
+                        <div class="app-card card-upcoming p-4">
+                            <span class="badge-upcoming">Q3 2026</span>
+                            <div class="card-body-content">
+                                <div class="card-icon text-muted"><i class="fa-solid fa-money-bill-trend-up"></i></div>
+                                <h5 class="card-title fw-bold">Contributions Calc.</h5>
+                                <p class="card-text text-muted small">
+                                    Calculation of multiplicative contributions and ROI. Handles variable grouping, currency conversion, and redistribution models. Generates waterfall, area, and pie charts.
+                                </p>
+                            </div>
+                            <div class="mt-4">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="small fw-bold text-muted">Status: Backend Dev</span>
+                                    <span class="small fw-bold text-primary">75%</span>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: 75%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming App: Indices Shiny -->
+                    <div class="col-md-4">
+                        <div class="app-card card-upcoming p-4">
+                            <span class="badge-upcoming">Q3 2026</span>
+                            <div class="card-body-content">
+                                <div class="card-icon text-muted"><i class="fa-solid fa-sliders"></i></div>
+                                <h5 class="card-title fw-bold">Indices</h5>
+                                <p class="card-text text-muted small">
+                                    Automated Calculation of the Deep Dives Indices using the PSO optimal weight, activity and cost per split. It group/ungroup breakouts as the user needs to report the final indices (Effectivenes, Efficiency), CPM/CPC, ROIs by splits, Incremental by splits. Also generates charts and tables.
+                                </p>
+                            </div>
+                            <div class="mt-4">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="small fw-bold text-muted">Status: Frontend Logic</span>
+                                    <span class="small fw-bold text-primary">50%</span>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style="width: 50%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming App: Model Variables Tracker -->
+                    <div class="col-md-4">
+                        <div class="app-card card-upcoming p-4">
+                            <span class="badge-upcoming">Q4 2026</span>
+                            <div class="card-body-content">
+                                <div class="card-icon text-muted"><i class="fa-solid fa-list-check"></i></div>
+                                <h5 class="card-title fw-bold">Model Variables Tracker</h5>
+                                <p class="card-text text-muted small">
+                                    Centralized tracking system to monitor variable usage, statistics, and consistency across multiple iterations and projects.
+                                </p>
+                            </div>
+                            <div class="mt-4">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="small fw-bold text-muted">Status: Backend Logic</span>
+                                    <span class="small fw-bold text-primary">20%</span>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" style="width: 20%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming App: Refresh Automation -->
+                    <div class="col-md-4">
+                        <div class="app-card card-upcoming p-4">
+                            <span class="badge-upcoming">2027</span>
+                            <div class="card-body-content">
+                                <div class="card-icon text-muted"><i class="fa-solid fa-arrows-rotate"></i></div>
+                                <h5 class="card-title fw-bold">Refresh Automation</h5>
+                                <p class="card-text text-muted small">
+                                    Streamlined split generation for model refreshes, input preparation, <strong>expected revenue calculation per channel and split</strong>, and final report table generation.
+                                </p>
+                            </div>
+                            <div class="mt-4">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="small fw-bold text-muted">Status: Frontend UI</span>
+                                    <span class="small fw-bold text-primary">50%</span>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 50%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div> 
+            </div>
+
+        </div> <!-- End Container -->
+        
+        <footer class="text-center py-4 text-muted border-top mt-5 bg-white">
+            <small>2026 Developed by Advanced Analytics Colombia Team</small>
+        </footer>
+    
+    </div> <!-- End Main Content -->
+</div> <!-- End Wrapper -->
+
+<!-- Bootstrap JS Bundle (Required for Collapse to work) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
